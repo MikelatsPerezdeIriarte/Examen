@@ -11,8 +11,8 @@ class LibraryTest extends TestCase
      */
     public function givenBookAndQuantityReturnsAddedBook(){
         $library = new Library();
-        $library->addBook(["prestar","dune", "2"]);
-        $this->assertEquals(" dune x2", $library->getRegister());
+        $result = $library->executeRegister("prestar dune 2");
+        $this->assertEquals(" dune x2", $result);
     }
 
     /**
@@ -20,8 +20,8 @@ class LibraryTest extends TestCase
      */
     public function givenBookWithNoQuantityReturnsAddedBook(){
         $library = new Library();
-        $library->addBook(["prestar","dune"]);
-        $this->assertEquals(" dune x1", $library->getRegister());
+        $result = $library->executeRegister("prestar dune");
+        $this->assertEquals(" dune x1", $result);
     }
 
     /**
@@ -29,8 +29,8 @@ class LibraryTest extends TestCase
      */
     public function givenBookThatExistsReturnsRemovedBook(){
         $library = new Library();
-        $library->addBook(["prestar","dune", "2"]);
-        $result = $library->removeBook(["devolver","dune"]);
+        $result = $library->executeRegister("prestar dune 2");
+        $result =$library->executeRegister("devolver dune");
         $this->assertEquals("dune x1", $result);
     }
 
@@ -48,8 +48,8 @@ class LibraryTest extends TestCase
      */
     public function emptyRegisterClearsRegister(){
         $library = new Library();
-        $library->addBook(["prestar","dune", "2"]);
-        $library->emptyRegister();
+        $result = $library->executeRegister("prestar dune 2");
+        $result = $library->emptyRegister();
         $this->assertEquals(" ", $library->getRegister());
     }
 

@@ -24,23 +24,24 @@ class Library
         $this->register = $register;
     }
 
-    public function executeRegister(){
-        $input = readline("Ingresa la acción a realizar:");
+    public function executeRegister($input) : String
+    {
         $parts = explode(" ", $input);
         switch ($parts[0]) {
             case 'prestar':
-                $this->addBook($parts);
+                $output = $this->addBook($parts);
                 break;
             case 'devolver':
-                $this->removeBook($parts);
+                $output = $this->removeBook($parts);
                 break;
             case 'limpiar':
-                $this->emptyRegister();
+                $output = $this->emptyRegister();
                 break;
         }
+        return $output;
     }
 
-    public function addBook($parts)
+    private function addBook($parts) : String
     {
         if (str_contains($this->register, $parts[1])) {
             $books = explode(",", $this->register);
@@ -57,14 +58,12 @@ class Library
                 $newBooks[] = $book;
             }
             $registerString = implode(",", $newBooks);
-            $this->register = $registerString;
-        } else {
-            if (isset($parts[2])){
-                $this->register = $this->register . $parts[1] . " x" . $parts[2];
-            } else{
-                $this->register = $this->register . $parts[1] . " x1";
-            }
+            return $this->register = $registerString;
         }
+        if (isset($parts[2])){
+            return $this->register = $this->register . $parts[1] . " x" . $parts[2];
+        }
+        return $this->register = $this->register . $parts[1] . " x1";
     }
 
     public function removeBook($parts) : String
@@ -95,8 +94,9 @@ class Library
         }
     }
 
-    public function emptyRegister()
+    public function emptyRegister() : String
     {
         $this->register = " ";
+        return $this->register;
     }
 }
