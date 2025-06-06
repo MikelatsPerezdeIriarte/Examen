@@ -23,4 +23,16 @@ class LibraryTest extends TestCase
         $library->addBook(["prestar","dune"]);
         $this->assertEquals(" dune x1", $library->getRegister());
     }
+
+    /**
+     * @test
+     */
+    public function givenBookThatExistsReturnsRemovedBook(){
+        $library = new Library();
+        $library->addBook(["prestar","dune", "2"]);
+        $result = $library->removeBook(["devolver","dune"]);
+        $this->assertEquals("dune x1", $result);
+    }
+
+
 }

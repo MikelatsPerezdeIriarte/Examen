@@ -2,6 +2,9 @@
 
 namespace Examen;
 
+use function PHPUnit\Framework\isArray;
+use function PHPUnit\Framework\isString;
+
 class Library
 {
     private String $register;
@@ -39,34 +42,57 @@ class Library
 
     public function addBook($parts)
     {
-        if (str_contains($parts[1], $this->register)) {
+        if (str_contains($this->register, $parts[1])) {
             $books = explode(",", $this->register);
             foreach ($books as $book) {
-                if (str_contains($parts[1], $book)) {
+                if (str_contains($book, $parts[1])) {
                     preg_match_all('/\d+/', $book, $matches);
                     if (isset($parts[2])) {
-                        $total = (int)$parts[2] + (int)$matches[0];
+                        $total = (int)$parts[2] + (int)$matches[0][0];
                     } else {
-                        $total = 1 + (int)$matches[2];
+                        $total = 1 + (int)$matches[0][0];
                     }
                     $book = $parts[1] . " x" . $total;
                 }
                 $newBooks[] = $book;
             }
-            $this->register = implode(",", $newBooks);
+            $registerString = implode(",", $newBooks);
+            $this->register = $registerString;
         } else {
             if (isset($parts[2])){
                 $this->register = $this->register . $parts[1] . " x" . $parts[2];
             } else{
                 $this->register = $this->register . $parts[1] . " x1";
             }
-
         }
     }
 
-    public function removeBook($parts)
+    public function removeBook($parts) : String
     {
-
+        if (str_contains($this->register, $parts[1])) {
+            $books = explode(",", $this->register);
+            foreach ($books as $book) {
+                if (str_contains($book, $parts[1])) {
+                    preg_match_all('/\d+/', $book, $matches);
+                    $total = (int)$matches[0][0] - 1;
+                    if ($total < 1){
+                        $book = "";
+                    } else {
+                        $book = $parts[1] . " x" . $total;
+                    }
+                }
+                if (!(strcmp($book,"") == 0))
+                    $newBooks[] = $book;
+            }
+            if (!isArray($newBooks)){
+                $this->register = " ";
+            } else {
+                $this->register = implode(",", $newBooks);
+            }
+            return $this->register;
+        } else {
+            return "El libro indicado no está en préstamo";
+        }
     }
 
     public function emptyRegister()
