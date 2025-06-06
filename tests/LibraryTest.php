@@ -34,5 +34,14 @@ class LibraryTest extends TestCase
         $this->assertEquals("dune x1", $result);
     }
 
+    /**
+     * @test
+     */
+    public function givenBookThatDoesntExistReturnsRemovedBook(){
+        $library = new Library();
+        $result = $library->removeBook(["devolver","dune"]);
+        $this->assertEquals("El libro indicado no está en préstamo", $result);
+    }
+
 
 }
