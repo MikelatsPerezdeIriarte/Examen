@@ -8,7 +8,7 @@ class Library
 
     public function __construct()
     {
-        $this->register = "";
+        $this->register = " ";
     }
 
     public function getRegister(): string
@@ -44,9 +44,9 @@ class Library
             foreach ($books as $book) {
                 if (str_contains($parts[1], $book)) {
                     preg_match_all('/\d+/', $book, $matches);
-                    try {
+                    if (isset($parts[2])) {
                         $total = (int)$parts[2] + (int)$matches[0];
-                    } catch (\Throwable) {
+                    } else {
                         $total = 1 + (int)$matches[2];
                     }
                     $book = $parts[1] . " x" . $total;
@@ -55,17 +55,22 @@ class Library
             }
             $this->register = implode(",", $newBooks);
         } else {
-            $this->register = $this->register . $parts[1] . " x" . $parts[2];
+            if (isset($parts[2])){
+                $this->register = $this->register . $parts[1] . " x" . $parts[2];
+            } else{
+                $this->register = $this->register . $parts[1] . " x1";
+            }
+
         }
     }
 
-    public function removeBook()
+    public function removeBook($parts)
     {
 
     }
 
     public function emptyRegister()
     {
-
+        $this->register = " ";
     }
 }

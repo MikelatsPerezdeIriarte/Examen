@@ -9,9 +9,18 @@ class LibraryTest extends TestCase
     /**
      * @test
      */
-    public function givenBookReturnsAddedBook(){
+    public function givenBookAndQuantityReturnsAddedBook(){
         $library = new Library();
         $library->addBook(["prestar","dune", "2"]);
-        $this->assertEquals("dune x2", $library->getRegister());
+        $this->assertEquals(" dune x2", $library->getRegister());
+    }
+
+    /**
+     * @test
+     */
+    public function givenBookWithNoQuantityReturnsAddedBook(){
+        $library = new Library();
+        $library->addBook(["prestar","dune"]);
+        $this->assertEquals(" dune x1", $library->getRegister());
     }
 }
