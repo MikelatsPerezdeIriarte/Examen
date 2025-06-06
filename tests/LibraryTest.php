@@ -43,5 +43,14 @@ class LibraryTest extends TestCase
         $this->assertEquals("El libro indicado no está en préstamo", $result);
     }
 
+    /**
+     * @test
+     */
+    public function emptyRegisterClearsRegister(){
+        $library = new Library();
+        $library->addBook(["prestar","dune", "2"]);
+        $library->emptyRegister();
+        $this->assertEquals(" ", $library->getRegister());
+    }
 
 }
